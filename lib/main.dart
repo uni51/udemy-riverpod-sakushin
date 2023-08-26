@@ -4,9 +4,9 @@ import 'package:riverpod_counter/provider.dart';
 
 void main() {
   runApp(
-      ProviderScope(
-        child: const MyApp(),
-      ),
+    ProviderScope(
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -35,9 +35,8 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Consumer(
-          builder: (BuildContext context, WidgetRef ref, Widget? child) => Text(
-              ref.watch(titleProvider)
-          ),
+          builder: (BuildContext context, WidgetRef ref, Widget? child) =>
+              Text(ref.watch(titleProvider)),
         ),
       ),
       body: Center(
@@ -45,27 +44,26 @@ class MyHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Consumer(
-              builder: (context, ref, child) => Text(
-                  ref.watch(messageProvider)
-              ),
+              builder: (context, ref, child) =>
+                  Text(ref.watch(messageProvider)),
             ),
-            Consumer(
-              builder: (context, ref, child) {
-                return Text(
-                  ref.watch(countProvider).toString(),
-                  style: Theme.of(context).textTheme.headline4,
-                );
+            Consumer(builder: (context, ref, child) {
+              return Text(
+                ref.watch(countProvider).toString(),
+                style: Theme.of(context).textTheme.headline4,
+              );
             }),
           ],
         ),
       ),
-      floatingActionButton: Consumer(
-        builder: (context, ref, child) => FloatingActionButton(
-          onPressed: () => ref.watch(countProvider.state).state++,
+      floatingActionButton: Consumer(builder: (context, ref, child) {
+        print('button rebuild');
+        return FloatingActionButton(
+          onPressed: () => ref.read(countProvider.state).state++,
           tooltip: 'Increment',
           child: const Icon(Icons.add),
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        );
+      }), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
