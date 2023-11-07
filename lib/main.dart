@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_counter/data/count_data.dart';
 import 'package:riverpod_counter/provider.dart';
+import 'package:riverpod_counter/view_model.dart';
 
 void main() {
   runApp(
@@ -36,6 +37,15 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
+  ViewModel _viewModel = ViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _viewModel.setRef(ref);
+  }
+
   @override
   Widget build(BuildContext context) {
     print('MyHomePage rebuild');
@@ -49,7 +59,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             children: <Widget>[
               Text(ref.watch(messageProvider)),
               Text(
-                ref.watch(countDataProvider).count.toString(),
+                _viewModel.count,
                 style: Theme.of(context).textTheme.headline4,
               ),
               Row(
