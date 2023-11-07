@@ -7,7 +7,7 @@ import 'package:riverpod_counter/provider.dart';
 void main() {
   runApp(
     ProviderScope(
-      child: const MyApp(),
+      child: MyApp(),
     ),
   );
 }
@@ -82,10 +82,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    ref.watch(countDataProvider).countUp.toString(),
+                    ref.watch(countDataProvider.select((value) => value.countUp)).toString(),
                   ),
                   Text(
-                    ref.watch(countDataProvider).countDown.toString(),
+                    ref.watch(countDataProvider.select((value) => value.countDown)).toString(),
                   )
                 ],
               ),
