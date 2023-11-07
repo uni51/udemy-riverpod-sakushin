@@ -92,10 +92,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    ref.watch(countDataProvider.select((value) => value.countUp)).toString(),
+                    _viewModel.countUp,
                   ),
                   Text(
-                    ref.watch(countDataProvider.select((value) => value.countDown)).toString(),
+                    _viewModel.countDown,
                   )
                 ],
               ),

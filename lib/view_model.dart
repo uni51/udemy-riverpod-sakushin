@@ -12,4 +12,6 @@ class ViewModel {
   }
 
   get count => _ref.watch(countDataProvider).count.toString();
+  get countUp => _ref.watch(countDataProvider.select((value) => value.countUp)).toString();
+  get countDown => _ref.watch(countDataProvider.select((value) => value.countDown)).toString();
 }
