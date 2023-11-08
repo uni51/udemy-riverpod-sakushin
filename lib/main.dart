@@ -50,68 +50,49 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   Widget build(BuildContext context) {
     print('MyHomePage rebuild');
     return Scaffold(
-        appBar: AppBar(
-          title: Text(ref.watch(titleProvider)),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(ref.watch(messageProvider)),
-              Text(
-                _viewModel.count,
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
+      appBar: AppBar(
+        title: Text(ref.watch(titleProvider)),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(ref.watch(messageProvider)),
+            Text(
+              _viewModel.count,
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
                 FloatingActionButton(
-                  onPressed: () {
-                    CountData countData = ref.read(countDataProvider.state).state;
-                    ref.read(countDataProvider.state).state =
-                        ref.read(countDataProvider.state).state.copyWith(
-                          count: countData.count + 1,
-                          countUp: countData.countUp + 1,
-                        );
-                    },
+                  onPressed: _viewModel.onIncrease,
                   child: const Icon(CupertinoIcons.plus),
                 ),
                 FloatingActionButton(
-                  onPressed: () {
-                    CountData countData = ref.read(countDataProvider.state).state;
-                    ref.read(countDataProvider.state).state =
-                        ref.read(countDataProvider.state).state.copyWith(
-                          count: countData.count - 1,
-                          countDown: countData.countDown + 1,
-                        );
-                  },
+                  onPressed: _viewModel.onDecrease,
                   child: const Icon(CupertinoIcons.minus),
                 ),
-              ],),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    _viewModel.countUp,
-                  ),
-                  Text(
-                    _viewModel.countDown,
-                  )
-                ],
-              ),
-            ],
-          ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  _viewModel.countUp,
+                ),
+                Text(
+                  _viewModel.countDown,
+                )
+              ],
+            ),
+          ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            ref.read(countDataProvider.state).state = CountData(
-              count: 0,
-              countUp: 0,
-              countDown: 0,
-            );
-          },
-          child: const Icon(Icons.refresh),
-        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _viewModel.onReset,
+        child: const Icon(Icons.refresh),
+      ),
     );
   }
 }
