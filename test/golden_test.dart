@@ -3,20 +3,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:riverpod_counter/main.dart';
 import 'package:riverpod_counter/view_model.dart';
 
+class MockViewModel extends Mock implements ViewModel {}
+
 void main() {
-  setUpAll(() async{
+  setUpAll(() async {
     await loadAppFonts();
   });
-  
+
+  const iPhone55 =
+      Device(name: 'iPhone 5.5', size: Size(414, 736), devicePixelRatio: 3.0);
+
+  List<Device> devices = [iPhone55];
+
   testGoldens('normal', (tester) async {
-    const iPhone55 =
-        Device(name: 'iPhone 5.5', size: Size(414, 736), devicePixelRatio: 3.0);
-
-    List<Device> devices = [iPhone55];
-
     ViewModel viewModel = ViewModel();
 
     await tester.pumpWidgetBuilder(
@@ -35,5 +38,22 @@ void main() {
     await tester.pump(); // rebuild
 
     await multiScreenGolden(tester, 'myHomePage_1tapped', devices: devices);
+  });
+
+  testGoldens('viewModelTest', (tester) async {
+    var mock = MockViewModel();
+    when(() => mock.count).thenReturn(1123456789.toString());
+    when(() => mock.countUp).thenReturn(2123456789.toString());
+    when(() => mock.countDown).thenReturn(3123456789.toString());
+
+    await tester.pumpWidgetBuilder(
+      ProviderScope(
+        child: MyHomePage(
+          mock,
+        ),
+      ),
+    );
+
+    await multiScreenGolden(tester, 'myHomePage_mock', devices: devices);
   });
 }
