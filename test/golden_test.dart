@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:riverpod_counter/main.dart';
+import 'package:riverpod_counter/provider.dart';
 import 'package:riverpod_counter/view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -47,11 +48,18 @@ void main() {
     when(() => mock.countUp).thenReturn(2123456789.toString());
     when(() => mock.countDown).thenReturn(3123456789.toString());
 
+    // final mockTitleProvider = Provider<String>((ref) => 'mockTitle');
+
     await tester.pumpWidgetBuilder(
       ProviderScope(
-        child: MyHomePage(
-          mock,
-        ),
+        child: MyHomePage(mock),
+        // overrides: [
+        //   // titleProvider.overrideWithProvider(mockTitleProvider),
+        //   // titleProvider
+        //   // .overrideWithProvider(Provider<String>((ref) => 'mockTitle')),
+        //   //titleProvider.overrideWithValue('mockTitle'),
+        //   messageProvider.overrideWithValue('mockMessage'),
+        // ],
       ),
     );
 
