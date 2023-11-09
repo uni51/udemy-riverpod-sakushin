@@ -6,6 +6,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:riverpod_counter/main.dart';
 import 'package:riverpod_counter/view_model.dart';
+import 'package:flutter/material.dart';
 
 class MockViewModel extends Mock implements ViewModel {}
 
@@ -55,5 +56,25 @@ void main() {
     );
 
     await multiScreenGolden(tester, 'myHomePage_mock', devices: devices);
+
+    verifyNever(() => mock.onIncrease());
+    verifyNever(() => mock.onDecrease());
+    verifyNever(() => mock.onReset());
+
+    await tester.tap(find.byIcon(CupertinoIcons.plus));
+    verify(() => mock.onIncrease()).called(1);
+    verifyNever(() => mock.onDecrease());
+    verifyNever(() => mock.onReset());
+
+    await tester.tap(find.byIcon(CupertinoIcons.minus));
+    await tester.tap(find.byIcon(CupertinoIcons.minus));
+    verifyNever(() => mock.onIncrease());
+    verify(() => mock.onDecrease()).called(2);
+    verifyNever(() => mock.onReset());
+
+    await tester.tap(find.byIcon(Icons.refresh));
+    verifyNever(() => mock.onIncrease());
+    verifyNever(() => mock.onDecrease());
+    verify(() => mock.onReset()).called(1);
   });
 }
