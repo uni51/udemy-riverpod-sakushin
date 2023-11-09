@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_counter/data/count_data.dart';
 import 'package:riverpod_counter/provider.dart';
 import 'package:riverpod_counter/view_model.dart';
 
