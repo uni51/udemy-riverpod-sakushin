@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -27,5 +28,12 @@ void main() {
     );
 
     await multiScreenGolden(tester, 'myHomePage_0init', devices: devices);
+
+    await tester.tap(find.byIcon(CupertinoIcons.plus));
+    await tester.tap(find.byIcon(CupertinoIcons.plus));
+    await tester.tap(find.byIcon(CupertinoIcons.minus));
+    await tester.pump(); // rebuild
+
+    await multiScreenGolden(tester, 'myHomePage_1tapped', devices: devices);
   });
 }
