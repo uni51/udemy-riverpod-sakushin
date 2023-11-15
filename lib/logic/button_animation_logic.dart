@@ -1,5 +1,6 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:riverpod_counter/data/count_data.dart';
 
 class ButtonAnimationLogic {
   late AnimationController _animationController;
@@ -28,5 +29,13 @@ class ButtonAnimationLogic {
     _animationController.forward().whenComplete(
           () => _animationController.reset(),
         );
+  }
+
+  void valueChanged(CountData oldValue, CountData newValue) {
+    if (oldValue.countUp + 1 != newValue.countUp) {
+      return;
+    }
+
+    start();
   }
 }

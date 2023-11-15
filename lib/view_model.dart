@@ -35,7 +35,6 @@ class ViewModel {
 
   void onIncrease() {
     _logic.increase();
-    _buttonAnimationLogicPlus.start();
     update();
   }
 
@@ -55,5 +54,6 @@ class ViewModel {
     CountData newValue = _ref.watch(countDataProvider.state).state;
 
     _soundLogic.valueChanged(oldValue, newValue);
+    _buttonAnimationLogicPlus.valueChanged(oldValue, newValue);
   }
 }
