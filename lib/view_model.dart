@@ -1,18 +1,24 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_counter/data/count_data.dart';
 import 'package:riverpod_counter/logic/logic.dart';
 import 'package:riverpod_counter/logic/sound_logic.dart';
 import 'package:riverpod_counter/provider.dart';
+import 'logic/button_animation_logic.dart';
 
 class ViewModel {
   Logic _logic = Logic();
 
   SoundLogic _soundLogic = SoundLogic();
+  late ButtonAnimationLogic _buttonAnimationLogicPlus;
+
 
   late WidgetRef _ref;
 
-  void setRef(WidgetRef ref) {
+  void setRef(WidgetRef ref, TickerProvider tickerProvider) {
     this._ref = ref;
+
+    _buttonAnimationLogicPlus = ButtonAnimationLogic(tickerProvider);
     _soundLogic.load();
   }
 
@@ -25,8 +31,11 @@ class ViewModel {
       .watch(countDataProvider.select((value) => value.countDown))
       .toString();
 
+  get animationPlus => _buttonAnimationLogicPlus.animationScale;
+
   void onIncrease() {
     _logic.increase();
+    _buttonAnimationLogicPlus.start();
     update();
   }
 
